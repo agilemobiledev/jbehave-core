@@ -83,10 +83,14 @@ public class StoryControlsBeanDefinitionParser extends
 					SKIP_SCENARIOS_AFTER_FAILURE_SETTER, skipAfterFailure);
 		}
 
+		String id = isAttributeDefined(storyControls, ID_ATTRIBUTE) ? storyControls
+				.getAttribute(ID_ATTRIBUTE) : SpringStoryControls.class
+				.getName();
+
 		AbstractBeanDefinition beanDefinition = beanDefinitionBuilder
 				.getBeanDefinition();
 		NamespaceHandlerUtils.registerBeanDefinition(parserContext,
-				beanDefinition, SpringStoryControls.class.getName());
+				beanDefinition, id);
 
 		return beanDefinition;
 	}

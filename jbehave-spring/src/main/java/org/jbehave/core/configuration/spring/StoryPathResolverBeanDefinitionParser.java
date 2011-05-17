@@ -144,10 +144,14 @@ public class StoryPathResolverBeanDefinitionParser extends
 			beanDefinitionBuilder.addConstructorArgValue(locale);
 		}
 
+		String id = isAttributeDefined(definedElement, ID_ATTRIBUTE) ? definedElement
+				.getAttribute(ID_ATTRIBUTE)
+				: UnderscoredCamelCaseResolver.class.getName();
+
 		AbstractBeanDefinition beanDefinition = beanDefinitionBuilder
 				.getBeanDefinition();
 		NamespaceHandlerUtils.registerBeanDefinition(parserContext,
-				beanDefinition, UnderscoredCamelCaseResolver.class.getName());
+				beanDefinition, id);
 
 		return beanDefinition;
 	}
@@ -173,10 +177,14 @@ public class StoryPathResolverBeanDefinitionParser extends
 			beanDefinitionBuilder.addConstructorArgValue(extension);
 		}
 
+		String id = isAttributeDefined(definedElement, ID_ATTRIBUTE) ? definedElement
+				.getAttribute(ID_ATTRIBUTE) : CasePreservingResolver.class
+				.getName();
+
 		AbstractBeanDefinition beanDefinition = beanDefinitionBuilder
 				.getBeanDefinition();
 		NamespaceHandlerUtils.registerBeanDefinition(parserContext,
-				beanDefinition, CasePreservingResolver.class.getName());
+				beanDefinition, id);
 
 		return beanDefinition;
 	}

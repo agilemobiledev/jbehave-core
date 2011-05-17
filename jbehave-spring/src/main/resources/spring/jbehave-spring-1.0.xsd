@@ -53,10 +53,10 @@
 
 	<xsd:element name="stepMonitor" type="stepMonitorType"></xsd:element>
 
-	<xsd:element name="localisedKeywords" type="keywordsType"></xsd:element>
+	<xsd:element name="localizedKeywords" type="keywordsType"></xsd:element>
 
 	<xsd:complexType name="stepFinderType">
-		<xsd:attribute name="prioritisingStrategy">
+		<xsd:attribute name="prioritisingStrategy" use="required">
 			<xsd:simpleType>
 				<xsd:restriction base="xsd:string">
 					<xsd:enumeration value="BY_LEVENSHTEIN_DISTANCE"></xsd:enumeration>
@@ -87,6 +87,7 @@
 	</xsd:complexType>
 
 	<xsd:complexType name="stepPatternParserType">
+		<xsd:attribute name="id" type="xsd:ID" use="optional"></xsd:attribute>
 		<xsd:attribute name="prefix" type="xsd:string" use="optional"></xsd:attribute>
 	</xsd:complexType>
 
@@ -108,14 +109,16 @@
 				</xsd:complexType>
 			</xsd:element>
 		</xsd:choice>
+		<xsd:attribute name="id" type="xsd:ID" use="optional"></xsd:attribute>
 	</xsd:complexType>
 
 	<xsd:complexType name="storyControlsType">
 		<xsd:attribute name="doDryRun" type="xsd:boolean" use="optional"></xsd:attribute>
 		<xsd:attribute name="doSkipScenariosAfterFailure" type="xsd:boolean"
 			use="optional"></xsd:attribute>
-		<xsd:attribute name="doSkipBeforeAndAfterScenarioStepsIfGivenStor"
+		<xsd:attribute name="doSkipBeforeAndAfterScenarioStepsIfGivenStory"
 			type="xsd:boolean" use="optional"></xsd:attribute>
+		<xsd:attribute name="id" type="xsd:ID" use="optional"/>
 	</xsd:complexType>
 
 	<xsd:complexType name="storyReporterBuilderType">
@@ -123,6 +126,12 @@
 			<xsd:element name="format" type="formatType" minOccurs="1"
 				maxOccurs="unbounded"></xsd:element>
 		</xsd:sequence>
+		<xsd:attribute name="codeLocation" type="xsd:anyURI"></xsd:attribute>	
+		<xsd:attribute name="multiThreading" type="xsd:boolean"></xsd:attribute>
+		<xsd:attribute name="relativeDirectory" type="xsd:string"></xsd:attribute>
+		<xsd:attribute name="reportFailureTrace" type="xsd:boolean"></xsd:attribute>
+		<xsd:attribute name="reportFailureTraceCompression" type="xsd:boolean"></xsd:attribute>
+		<xsd:attribute name="id" type="xsd:ID" use="optional"></xsd:attribute>
 	</xsd:complexType>
 
 	<xsd:complexType name="storyLoaderType">
@@ -130,7 +139,7 @@
 			<xsd:element name="loadFromClasspath">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="embedderClassLoader" type="xsd:string"
+						<xsd:element name="classpathElements" type="xsd:string"
 							minOccurs="1" maxOccurs="unbounded"></xsd:element>
 					</xsd:sequence>
 				</xsd:complexType>
@@ -138,6 +147,7 @@
 			<xsd:element name="loadFromURL"></xsd:element>
 			<xsd:element name="loadFromRelativePath" type="xsd:anyURI"></xsd:element>
 		</xsd:choice>
+		<xsd:attribute name="id" type="xsd:ID" use="optional"></xsd:attribute>
 	</xsd:complexType>
 
 

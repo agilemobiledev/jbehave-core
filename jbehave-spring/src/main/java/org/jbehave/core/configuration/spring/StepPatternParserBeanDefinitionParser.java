@@ -1,5 +1,7 @@
 package org.jbehave.core.configuration.spring;
 
+import static org.jbehave.core.configuration.spring.NamespaceHandlerUtils.isAttributeDefined;
+
 import org.jbehave.core.parsers.RegexPrefixCapturingPatternParser;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
@@ -36,33 +38,22 @@ public class StepPatternParserBeanDefinitionParser extends
 		BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder
 				.rootBeanDefinition(RegexPrefixCapturingPatternParser.class);
 
-		if (isPrefixDefined(stepPatternElement)) {
+		if (isAttributeDefined(stepPatternElement, PREFIX_ATTRIBUTE)) {
 			String prefix = getAttributeValue(stepPatternElement,
 					PREFIX_ATTRIBUTE);
 			beanDefinitionBuilder.addConstructorArgValue(prefix);
 		}
 
+		String id = isAttributeDefined(stepPatternElement, ID_ATTRIBUTE) ? stepPatternElement
+				.getAttribute(PREFIX_ATTRIBUTE)
+				: RegexPrefixCapturingPatternParser.class.getName();
+
 		AbstractBeanDefinition beanDefinition = beanDefinitionBuilder
 				.getBeanDefinition();
 		NamespaceHandlerUtils.registerBeanDefinition(parserContext,
-				beanDefinition,
-				RegexPrefixCapturingPatternParser.class.getName());
+				beanDefinition, id);
 
 		return beanDefinition;
-	}
-
-	/**
-	 * Function that checks if prefix attribute is present in
-	 * regexPrefixCapturingPatternParser.
-	 * 
-	 * @param stepPatternElement
-	 *            dom element.
-	 * @return True if it is defined, false otherwise.
-	 */
-	private boolean isPrefixDefined(Element stepPatternElement) {
-		final String prefixAttributeValue = stepPatternElement
-				.getAttribute(PREFIX_ATTRIBUTE);
-		return prefixAttributeValue != null && !"".equals(prefixAttributeValue);
 	}
 
 	/**

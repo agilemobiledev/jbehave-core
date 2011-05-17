@@ -1,12 +1,16 @@
 package org.jbehave.core.configuration.spring;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinitionHolder;
 import org.springframework.beans.factory.parsing.BeanComponentDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionReaderUtils;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.xml.ParserContext;
+import org.springframework.util.xml.DomUtils;
 import org.w3c.dom.Element;
 
 public class NamespaceHandlerUtils {
@@ -50,6 +54,39 @@ public class NamespaceHandlerUtils {
 	}
 
 	/**
+	 * Gets content of child elements with given tag from element.
+	 * 
+	 * @param node
+	 *            "parent" root.
+	 * @param tagName
+	 *            tag name of required children.
+	 * @return List of content of child elements with given tag name.
+	 */
+	public static final List<String> getElementsContentFromNode(Element node,
+			String tagName) {
+		@SuppressWarnings("unchecked")
+		List<Element> elements = DomUtils.getChildElementsByTagName(node,
+				tagName);
+		return getStringValuesFromElementsList(elements);
+	}
+
+	/**
+	 * Transforms Elements list to a list of node values.
+	 * 
+	 * @param elements
+	 *            elements where getNodeValue method will be executed.
+	 * @return list of texts containing each node value.
+	 */
+	private static final List<String> getStringValuesFromElementsList(
+			List<Element> elements) {
+		List<String> elementsText = new ArrayList<String>();
+		for (Element element : elements) {
+			elementsText.add(DomUtils.getTextValue(element));
+		}
+		return elementsText;
+	}
+
+	/**
 	 * Method that parses an xsd:language XML Schema element to a Locale object.
 	 * 
 	 * @param xsdLanguageValue
@@ -71,6 +108,13 @@ public class NamespaceHandlerUtils {
 
 		return locale;
 
+	}
+
+	public static final BeanDefinition findBeanDefinitionByName(
+			String beanName, ParserContext parserContext) {
+
+		BeanDefinitionRegistry registry = parserContext.getRegistry();
+		return registry.getBeanDefinition(beanName);
 	}
 
 }

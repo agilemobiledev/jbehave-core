@@ -5,11 +5,20 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
            http://jbehave.org/schemas/spring http://jbehave.org/schemas/spring/jbehave-spring-1.0.xsd">
 
-  <jbehave:embedder id="embedder" prefix="MyPrefix">
-    <jbehave:classpathLoader>target/classes</jbehave:classpathLoader>
-    <jbehave:output>TXT</jbehave:output>
-    <jbehave:output>HTML</jbehave:output>
-    <jbehave:output>CONSOLE</jbehave:output>
-  </jbehave:embedder>
+	<jbehave:regexPrefixCapturingPatternParser id="regex" prefix="#"/>
 
+	<jbehave:storyPathResolver id="storyPathResolver">
+		<jbehave:underscoredCamelCaseResolver extension=".story" resolutionPattern="MM" locale="ja-JP"/>
+	</jbehave:storyPathResolver>
+
+	<jbehave:storyControls id="storyControls" doDryRun="true" doSkipScenariosAfterFailure="true" doSkipBeforeAndAfterScenarioStepsIfGivenStory="true"/>
+
+	<jbehave:storyReporterBuilder id="storyReporter" relativeDirectory="target/classes">
+		<jbehave:format>TXT</jbehave:format>
+	</jbehave:storyReporterBuilder>
+	
+	<jbehave:storyLoader id="storyLoader">
+		<jbehave:loadFromURL/>
+	</jbehave:storyLoader>
+	
 </beans>
